@@ -1,24 +1,31 @@
 #!/usr/bin/env python3
+
+import operator
+operators  = {
+    '+': operator.add,
+    '-': operator.sub,
+    '*': operator.mul,
+    '/': operator.floordiv,
+}
+
 def calculate(arg):
     stack = list()  # create the stack
+    print(arg.split())
     for token in arg.split():
-        print(token)
-        if token == '+':
+        # print(token)
+        try:
+             value = int(token)
+             stack.append(value)
+        except ValueError: # That is an operator
+            function = operators[token]
             arg2 = stack.pop()
+            print(token)
             arg1 = stack.pop()
-            result = arg1 + arg2
+            result = function(arg1, arg2)
             stack.append(result)
-        elif token == '-':
-            # Stack pop the last element first
-            arg2 = stack.pop()
-            arg1 = stack.pop()
-            result = arg1 - arg2
-            stack.append(result)
-        else:
-            stack.append(int(token))
         #print(stack)
-        if len(stack) != 1:
-            raise TypeError('malformed input')
+    if len(stack) != 1:
+        raise TypeError('malformed input')
     return stack.pop()
 def main():
     while True:
