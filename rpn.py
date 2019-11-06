@@ -1,36 +1,32 @@
-#!/usr/bin/env python3
-
 import operator
-operators  = {
+operators = {
     '+': operator.add,
     '-': operator.sub,
     '*': operator.mul,
-    '/': operator.floordiv,
+    '/': operator.truediv,
 }
 
-def calculate(arg):
-    stack = list()  # create the stack
-    print(arg.split())
-    for token in arg.split():
-        # print(token)
+def calculate(myarg):
+    stack = list()
+    for token in myarg.split():
         try:
-             value = int(token)
-             stack.append(value)
-        except ValueError: # That is an operator
+            token = int(token)
+            stack.append(token)
+        except ValueError:
             function = operators[token]
             arg2 = stack.pop()
-            print(token)
             arg1 = stack.pop()
             result = function(arg1, arg2)
             stack.append(result)
-        #print(stack)
+        print(stack)
     if len(stack) != 1:
-        raise TypeError('malformed input')
+        raise TypeError("Too many parameters")
     return stack.pop()
+
 def main():
     while True:
-        calculate(input("rpn calc> "))
+        result = calculate(input("rpn calc> "))
+        print("Result: ", result)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
